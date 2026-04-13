@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGWI Trans Sejahtera</title>
+
+<style>
+*{box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;margin:0;background:#eef2f7;}
+
+.login{display:flex;height:100vh;justify-content:center;align-items:center;}
+.login-box{background:white;padding:30px;border-radius:12px;width:300px;box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+
+.sidebar{width:230px;height:100vh;background:#2c3e50;position:fixed;color:white;}
+.sidebar h2{text-align:center;padding:20px;margin:0;}
+.sidebar a{display:block;padding:15px;cursor:pointer;}
+.sidebar a:hover{background:#34495e;}
+
+.content{margin-left:230px;padding:20px;}
+
+.card{background:white;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
+.hidden{display:none;}
+
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:10px;}
+
+input{padding:10px;border-radius:8px;border:1px solid #ccc;}
+
+button{padding:10px 15px;background:#3498db;color:white;border:none;border-radius:8px;cursor:pointer;}
+button:hover{background:#2980b9;}
+
+.checkbox-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:10px;}
+.checkbox-grid label{background:#f1f3f6;padding:8px;border-radius:6px;display:flex;gap:5px;align-items:center;font-size:13px;}
+
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th,td{border:1px solid #ddd;padding:8px;font-size:13px;}
+th{background:#3498db;color:white;}
+
+@media(max-width:768px){
+.sidebar{position:relative;width:100%;height:auto;}
+.content{margin-left:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login">
+<div class="login-box">
+<h2>Login</h2>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Masuk</button>
+<p id="error" style="color:red;"></p>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+
+<div class="sidebar">
+<h2>AGWI TRANS</h2>
+
+<!-- USER MENU (ASLI LU) -->
+<div id="menuUser">
+<a onclick="showPage('dashboard')">Dashboard</a>
+<a onclick="showPage('muat')">Muat Barang</a>
+<a onclick="showPage('bongkar')">Bongkar Barang</a>
+<a onclick="showPage('maintenance')">Maintenance</a>
+</div>
+
+<!-- ADMIN MENU (TAMBAHAN DOANG) -->
+<div id="menuAdmin" class="hidden">
+<a onclick="showPage('adminDashboard')">Dashboard Admin</a>
+<a onclick="showPage('adminMuat')">Data Muat</a>
+<a onclick="showPage('adminBongkar')">Data Bongkar</a>
+<a onclick="showPage('adminMaintenance')">Data Maintenance</a>
+</div>
+
+<a onclick="logout()">Logout</a>
+</div>
+
+<div class="content">
+
+<!-- DASHBOARD USER -->
+<div id="dashboard" class="card">
+<h2>Dashboard</h2>
+<p>Selamat datang di sistem AGWI</p>
+</div>
+
+<!-- DASHBOARD ADMIN -->
+<div id="adminDashboard" class="card hidden">
+<h2>Dashboard Admin</h2>
+<p>Monitoring semua data</p>
+</div>
+
+<!-- ===================== MUAT (ASLI LU) ===================== -->
+<div id="muat" class="card hidden">
+<h2>Muat Barang</h2>
+
+<div class="form-grid">
+<input id="platMuat" placeholder="Plat Nomor">
+<input id="supirMuat" placeholder="Nama Supir">
+<input id="typeUnitMuat" placeholder="Type Unit">
+<input id="noPOMuat" placeholder="No. PO">
+<input id="noInvoiceMuat" placeholder="No. Invoice">
+<input id="lokasiMuat" placeholder="Lokasi">
+<input type="date" id="tanggalMuat">
+<input id="dpMuat" placeholder="DP">
+<input type="file" id="fileMuat" multiple>
+</div>
+
+<button id="btnMuat" onclick="tambahMuat()">Simpan</button>
+<button onclick="exportExcel('muat')">Export</button>
+
+<table>
+<thead>
+<tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>No. PO</th><th>No. Invoice</th><th>Lokasi</th><th>Tanggal</th><th>DP</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="tableMuat"></tbody>
+</table>
+</div>
+
+<!-- ===================== BONGKAR (ASLI LU) ===================== -->
+<div id="bongkar" class="card hidden">
+<h2>Bongkar Barang</h2>
+
+<div class="form-grid">
+<input id="platBongkar" placeholder="Plat Nomor">
+<input id="supirBongkar" placeholder="Nama Supir">
+<input id="typeUnitBongkar" placeholder="Type Unit">
+<input id="noPOBongkar" placeholder="No. PO">
+<input id="noInvoiceBongkar" placeholder="No. Invoice">
+<input id="lokasiBongkar" placeholder="Lokasi">
+<input type="date" id="tanggalBongkar">
+<input id="dpBongkar" placeholder="Total Harga">
+<input type="file" id="fileBongkar" multiple>
+</div>
+
+<button id="btnBongkar" onclick="tambahBongkar()">Simpan</button>
+<button onclick="exportExcel('bongkar')">Export</button>
+
+<table>
+<thead>
+<tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>No. PO</th><th>No. Invoice</th><th>Lokasi</th><th>Tanggal</th><th>DP</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="tableBongkar"></tbody>
+</table>
+</div>
+
+<!-- ===================== MAINTENANCE (ASLI LU FULL) ===================== -->
+<div id="maintenance" class="card hidden">
+<h2>Maintenance</h2>
+
+<div class="form-grid">
+<input id="supirMaintenance" placeholder="Nama Supir">
+<input id="platMaintenance" placeholder="Plat Nomor">
+<input id="kendaraan" placeholder="Kendaraan">
+<input type="date" id="tanggalService">
+<input type="file" id="fileMaintenance" multiple>
+<input id="keterangan" placeholder="Keterangan">
+</div>
+
+<h3>Cek Kondisi</h3>
+<div class="checkbox-grid">
+
+<label><input type="checkbox" value="Oli Mesin"> Oli Mesin</label>
+<label><input type="checkbox" value="Oli Hidrolik Wingbox & Kabin"> Oli Hidrolik Wingbox & Kabin</label>
+
+<label><input type="checkbox" value="Setir"> Setir</label>
+<label><input type="checkbox" value="Sabuk Pengaman"> Sabuk Pengaman (Seat Belt)</label>
+
+<label><input type="checkbox" value="Temperatur"> Temperatur / Indikator</label>
+<label><input type="checkbox" value="Air Radiator"> Air Radiator</label>
+
+<label><input type="checkbox" value="Rem"> Rem</label>
+<label><input type="checkbox" value="Bahan Bakar"> Bahan Bakar</label>
+
+<label><input type="checkbox" value="Fisik Ban"> Keadaan Fisik Ban</label>
+<label><input type="checkbox" value="Tekanan Ban"> Tekanan Angin Ban</label>
+
+<label><input type="checkbox" value="Lampu"> Kondisi Lampu-Lampu</label>
+<label><input type="checkbox" value="Accu"> Kondisi Accu</label>
+
+<label><input type="checkbox" value="Kebersihan"> Kebersihan Mobil & Box</label>
+<label><input type="checkbox" value="Track-Belt"> Track-Belt (4 pcs)</label>
+
+<label><input type="checkbox" value="Terpal"> Terpal</label>
+<label><input type="checkbox" value="Gembok"> Gembok (2 pcs)</label>
+
+</div>
+
+<h3>Kunci Ring Pas</h3>
+<div class="checkbox-grid">
+
+<label><input type="checkbox" value="Ring 8"> Ring Pas 8</label>
+<label><input type="checkbox" value="Ring 10"> Ring Pas 10</label>
+<label><input type="checkbox" value="Ring 12"> Ring Pas 12</label>
+<label><input type="checkbox" value="Ring 14"> Ring Pas 14</label>
+
+<label><input type="checkbox" value="Ring 16"> Ring Pas 16</label>
+<label><input type="checkbox" value="Ring 17"> Ring Pas 17</label>
+<label><input type="checkbox" value="Ring 18"> Ring Pas 18</label>
+<label><input type="checkbox" value="Ring 19"> Ring Pas 19</label>
+
+<label><input type="checkbox" value="Ring 20"> Ring Pas 20</label>
+<label><input type="checkbox" value="Ring 21"> Ring Pas 21</label>
+<label><input type="checkbox" value="Ring 22"> Ring Pas 22</label>
+<label><input type="checkbox" value="Ring 24"> Ring Pas 24</label>
+
+</div>
+
+
+<button id="btnMaintenance" onclick="tambahMaintenance()">Simpan</button>
+
+<table>
+<thead>
+<tr><th>Supir</th><th>Plat</th><th>Kendaraan</th><th>Tanggal</th><th>Checklist</th><th>Keterangan</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="tableMaintenance"></tbody>
+</table>
+</div>
+
+<!-- ===================== ADMIN VIEW ===================== -->
+<div id="adminMuat" class="card hidden">
+<h2>Data Muat</h2>
+<table>
+<thead>
+<tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>No. PO</th><th>No. Invoice</th><th>Lokasi</th><th>Tanggal</th><th>DP</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="viewMuat"></tbody>
+</table>
+</div>
+
+<div id="adminBongkar" class="card hidden">
+<h2>Data Bongkar</h2>
+<table>
+<thead>
+<tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>No. PO</th><th>No. Invoice</th><th>Lokasi</th><th>Tanggal</th><th>DP</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="viewBongkar"></tbody>
+</table>
+</div>
+
+<div id="adminMaintenance" class="card hidden">
+<h2>Data Maintenance</h2>
+<table>
+<thead>
+<tr><th>Supir</th><th>Plat</th><th>Kendaraan</th><th>Tanggal</th><th>Checklist</th><th>Keterangan</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="viewMaintenance"></tbody>
+</table>
+</div>
+
+</div>
+</div>
+
+<script>
+let role="";
+let editIndex = {muat:null, bongkar:null, maintenance:null};
+
+const btnMuat = document.getElementById("btnMuat");
+const btnBongkar = document.getElementById("btnBongkar");
+const btnMaintenance = document.getElementById("btnMaintenance");
+
+/* ================= LOGIN ================= */
+function login(){
+if(username.value==="admin"&&password.value==="123"){
+role="admin";
+menuAdmin.classList.remove("hidden");
+menuUser.classList.add("hidden");
+dashboard.classList.add("hidden");
+adminDashboard.classList.remove("hidden");
+}
+else if(username.value==="user"&&password.value==="123"){
+role="user";
+menuUser.classList.remove("hidden");
+menuAdmin.classList.add("hidden");
+}
+else{
+error.innerText="Login gagal!";
+return;
+}
+loginPage.style.display="none";
+app.classList.remove("hidden");
+
+loadData();
+}
+
+function logout(){location.reload();}
+
+function showPage(p){
+document.querySelectorAll('.card').forEach(el=>el.classList.add('hidden'));
+document.getElementById(p).classList.remove('hidden');
+}
+
+function formatRupiah(a){
+if(!a) return "-";
+return "Rp "+parseInt(a).toLocaleString("id-ID");
+}
+
+/* ================= RESET ================= */
+function resetForm(key){
+if(key==="muat"){
+platMuat.value="";
+supirMuat.value="";
+typeUnitMuat.value="";
+noPOMuat.value="";
+noInvoiceMuat.value="";
+lokasiMuat.value="";
+tanggalMuat.value="";
+dpMuat.value="";
+fileMuat.value="";
+if(btnMuat) btnMuat.innerText="Simpan";
+}
+
+if(key==="bongkar"){
+platBongkar.value="";
+supirBongkar.value="";
+typeUnitBongkar.value="";
+noPOBongkar.value="";
+noInvoiceBongkar.value="";
+lokasiBongkar.value="";
+tanggalBongkar.value="";
+dpBongkar.value="";
+fileBongkar.value="";
+if(btnBongkar) btnBongkar.innerText="Simpan";
+}
+
+if(key==="maintenance"){
+supirMaintenance.value="";
+platMaintenance.value="";
+kendaraan.value="";
+tanggalService.value="";
+keterangan.value="";
+fileMaintenance.value="";
+document.querySelectorAll('#maintenance input[type="checkbox"]').forEach(x=>x.checked=false);
+if(btnMaintenance) btnMaintenance.innerText="Simpan";
+}
+}
+
+/* ================= SAVE ================= */
+function saveData(key, data){
+let arr = JSON.parse(localStorage.getItem(key)) || [];
+
+if(editIndex[key]!==null){
+arr[editIndex[key]] = data;
+editIndex[key]=null;
+
+resetForm(key);
+alert("Data berhasil diupdate!");
+}else{
+arr.push(data);
+}
+
+localStorage.setItem(key, JSON.stringify(arr));
+loadData();
+}
+
+/* ================= LOAD ================= */
+function loadData(){
+loadTable("muat", tableMuat, viewMuat);
+loadTable("bongkar", tableBongkar, viewBongkar);
+loadTable("maintenance", tableMaintenance, viewMaintenance);
+}
+
+function loadTable(key, userTable, adminTable){
+let data = JSON.parse(localStorage.getItem(key)) || [];
+userTable.innerHTML="";
+adminTable.innerHTML="";
+
+data.forEach((row,i)=>{
+
+let actionUser = `<button onclick="editData('${key}',${i})">Edit</button>`;
+let actionAdmin = `
+<button onclick="editData('${key}',${i})">Edit</button>
+<button onclick="deleteData('${key}',${i})">Hapus</button>`;
+
+let rowUser = row.replace("</tr>", `<td>${actionUser}</td></tr>`);
+let rowAdmin = row.replace("</tr>", `<td>${actionAdmin}</td></tr>`);
+
+userTable.innerHTML += rowUser;
+adminTable.innerHTML += rowAdmin;
+
+});
+}
+
+/* ================= DELETE ================= */
+function deleteData(key,index){
+let data = JSON.parse(localStorage.getItem(key)) || [];
+data.splice(index,1);
+localStorage.setItem(key, JSON.stringify(data));
+loadData();
+}
+
+/* ================= EDIT (FIX TOTAL) ================= */
+function editData(key,index){
+let data = JSON.parse(localStorage.getItem(key)) || [];
+let row = data[index];
+
+let temp = document.createElement("tr");
+temp.innerHTML = row;
+
+let td = temp.querySelectorAll("td");
+
+editIndex[key]=index;
+
+alert("Mode EDIT aktif, klik simpan untuk update data");
+
+/* MUAT */
+if(key==="muat"){
+platMuat.value=td[0].innerText;
+supirMuat.value=td[1].innerText;
+typeUnitMuat.value=td[2].innerText;
+noPOMuat.value=td[3].innerText;
+noInvoiceMuat.value=td[4].innerText;
+lokasiMuat.value=td[5].innerText;
+tanggalMuat.value=td[6].innerText;
+dpMuat.value=td[7].innerText.replace(/\D/g,'');
+if(btnMuat) btnMuat.innerText="Update Data";
+showPage('muat');
+}
+
+/* BONGKAR */
+if(key==="bongkar"){
+platBongkar.value=td[0].innerText;
+supirBongkar.value=td[1].innerText;
+typeUnitBongkar.value=td[2].innerText;
+noPOBongkar.value=td[3].innerText;
+noInvoiceBongkar.value=td[4].innerText;
+lokasiBongkar.value=td[5].innerText;
+tanggalBongkar.value=td[6].innerText;
+dpBongkar.value=td[7].innerText.replace(/\D/g,'');
+if(btnBongkar) btnBongkar.innerText="Update Data";
+showPage('bongkar');
+}
+
+/* MAINTENANCE (FIX CHECKLIST) */
+if(key==="maintenance"){
+supirMaintenance.value=td[0].innerText;
+platMaintenance.value=td[1].innerText;
+kendaraan.value=td[2].innerText;
+tanggalService.value=td[3].innerText;
+keterangan.value=td[5].innerText;
+
+/* RESET CHECKBOX */
+document.querySelectorAll('#maintenance input[type="checkbox"]').forEach(x=>x.checked=false);
+
+/* SET CHECKBOX */
+let checklist = td[4].innerText.split(", ");
+document.querySelectorAll('#maintenance input[type="checkbox"]').forEach(x=>{
+if(checklist.includes(x.value)){
+x.checked=true;
+}
+});
+
+if(btnMaintenance) btnMaintenance.innerText="Update Data";
+showPage('maintenance');
+}
+}
+
+/* ================= MUAT ================= */
+function tambahMuat(){
+let f=fileMuat.files,links="";
+for(let i=0;i<f.length;i++){
+let u=URL.createObjectURL(f[i]);
+links+=`<a href="${u}" download>${f[i].name}</a><br>`;
+}
+
+let row=`<tr>
+<td>${platMuat.value}</td>
+<td>${supirMuat.value}</td>
+<td>${typeUnitMuat.value}</td>
+<td>${noPOMuat.value}</td>
+<td>${noInvoiceMuat.value}</td>
+<td>${lokasiMuat.value}</td>
+<td>${tanggalMuat.value}</td>
+<td>${formatRupiah(dpMuat.value)}</td>
+<td>${links}</td></tr>`;
+
+saveData("muat", row);
+}
+
+/* ================= BONGKAR ================= */
+function tambahBongkar(){
+let f=fileBongkar.files,links="";
+for(let i=0;i<f.length;i++){
+let u=URL.createObjectURL(f[i]);
+links+=`<a href="${u}" download>${f[i].name}</a><br>`;
+}
+
+let row=`<tr>
+<td>${platBongkar.value}</td>
+<td>${supirBongkar.value}</td>
+<td>${typeUnitBongkar.value}</td>
+<td>${noPOBongkar.value}</td>
+<td>${noInvoiceBongkar.value}</td>
+<td>${lokasiBongkar.value}</td>
+<td>${tanggalBongkar.value}</td>
+<td>${formatRupiah(dpBongkar.value)}</td>
+<td>${links}</td></tr>`;
+
+saveData("bongkar", row);
+}
+
+/* ================= MAINTENANCE ================= */
+function tambahMaintenance(){
+let c=[];
+document.querySelectorAll('#maintenance input[type="checkbox"]:checked')
+.forEach(x=>c.push(x.value));
+
+let f=fileMaintenance.files,links="";
+for(let i=0;i<f.length;i++){
+let u=URL.createObjectURL(f[i]);
+links+=`<a href="${u}" download>${f[i].name}</a><br>`;
+}
+
+let row=`<tr>
+<td>${supirMaintenance.value}</td>
+<td>${platMaintenance.value}</td>
+<td>${kendaraan.value}</td>
+<td>${tanggalService.value}</td>
+<td>${c.join(", ")}</td>
+<td>${keterangan.value}</td>
+<td>${links}</td></tr>`;
+
+saveData("maintenance", row);
+}
+</script>
+
+</body>
+</html>

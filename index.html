@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGWI Trans Sejahtera</title>
+
+<style>
+:root{
+--bg:#0b1220;
+--panel:#111a2e;
+--card:#121c33;
+--text:#e6edf7;
+--muted:#9fb0c3;
+--primary:#4f8cff;
+--primary2:#6aa6ff;
+--border:rgba(255,255,255,0.08);
+--shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0b1220,#0f1b33);
+color:var(--text);
+}
+
+/* ================= LOGIN ================= */
+.login{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+padding:20px;
+}
+
+.login-box{
+width:100%;
+max-width:360px;
+background:var(--panel);
+padding:30px;
+border-radius:18px;
+box-shadow:var(--shadow);
+display:flex;
+flex-direction:column;
+gap:12px;
+backdrop-filter:blur(10px);
+}
+
+.login-box h2{
+text-align:center;
+margin-bottom:10px;
+}
+
+input{
+padding:12px;
+border-radius:10px;
+border:1px solid var(--border);
+background:#0f1a30;
+color:var(--text);
+outline:none;
+transition:0.2s;
+}
+
+input:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(79,140,255,0.2);
+}
+
+button{
+padding:12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:linear-gradient(135deg,var(--primary),var(--primary2));
+color:white;
+font-weight:600;
+transition:0.2s;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+.link-btn{
+background:none;
+border:none;
+color:var(--primary2);
+cursor:pointer;
+text-align:center;
+}
+
+/* ================= LAYOUT ================= */
+.sidebar{
+width:260px;
+height:100vh;
+position:fixed;
+left:0;
+top:0;
+background:var(--panel);
+padding:20px 0;
+border-right:1px solid var(--border);
+}
+
+.sidebar h2{
+text-align:center;
+margin-bottom:20px;
+letter-spacing:1px;
+}
+
+.sidebar a{
+display:block;
+padding:14px 20px;
+color:var(--muted);
+cursor:pointer;
+transition:0.2s;
+border-left:3px solid transparent;
+}
+
+.sidebar a:hover{
+background:#1a2744;
+color:white;
+border-left:3px solid var(--primary);
+}
+
+.content{
+margin-left:260px;
+padding:20px;
+}
+
+/* ================= CARD ================= */
+.card{
+background:var(--card);
+padding:20px;
+border-radius:16px;
+margin-bottom:20px;
+box-shadow:var(--shadow);
+border:1px solid var(--border);
+}
+
+/* ================= FORM ================= */
+.form-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:12px;
+}
+
+/* ================= CHECKBOX ================= */
+.checkbox-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:12px;
+}
+
+.checkbox-grid label{
+background:#0f1a30;
+padding:12px;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+gap:6px;
+border:1px solid var(--border);
+transition:0.2s;
+}
+
+.checkbox-grid label:hover{
+transform:translateY(-2px);
+border-color:var(--primary);
+}
+
+/* ================= TABLE ================= */
+table{
+width:100%;
+border-collapse:collapse;
+overflow:hidden;
+border-radius:12px;
+background:#0f1a30;
+}
+
+th{
+background:linear-gradient(135deg,var(--primary),var(--primary2));
+color:white;
+padding:12px;
+text-align:left;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid var(--border);
+color:var(--muted);
+}
+
+/* ================= UTIL ================= */
+.hidden{display:none;}
+
+.file-item{
+margin-top:5px;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:768px){
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+display:flex;
+flex-direction:row;
+overflow-x:auto;
+}
+
+.sidebar a{
+flex:1;
+text-align:center;
+font-size:12px;
+padding:10px;
+}
+
+.content{
+margin-left:0;
+padding:12px;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.checkbox-grid{
+grid-template-columns:1fr;
+}
+
+table{
+font-size:12px;
+}
+
+}
+
+/* ================= ANIMATION ================= */
+.card, .login-box{
+animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.stat-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+}
+
+.stat-card{
+background:linear-gradient(135deg,#1a2744,#22345f);
+padding:20px;
+border-radius:14px;
+text-align:center;
+border:1px solid var(--border);
+transition:0.3s;
+}
+
+.stat-card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.stat-card h3{
+font-size:28px;
+color:#6aa6ff;
+margin-bottom:5px;
+}
+
+.stat-card p{
+color:var(--muted);
+font-size:14px;
+}
+
+hr{
+opacity:0.2;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login">
+<div class="login-box">
+<h2>Login</h2>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Masuk</button>
+<p id="error" style="color:red;"></p>
+
+<button class="link-btn" onclick="showRegister()">Belum punya akun? Daftar</button>
+</div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div id="registerPage" class="login hidden">
+<div class="login-box">
+<h2>Register</h2>
+<input id="regUsername" placeholder="Username baru">
+<input id="regPassword" type="password" placeholder="Password">
+<button onclick="register()">Daftar</button>
+<p id="regMsg"></p>
+
+<button class="link-btn" onclick="backToLogin()">← Kembali ke Login</button>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+
+<div class="sidebar">
+<h2>AGWI TRANS</h2>
+
+<div id="menuUser">
+<a onclick="showPage('dashboard')">Dashboard</a>
+<a onclick="showPage('muat')">Muat Barang</a>
+<a onclick="showPage('bongkar')">Bongkar Barang</a>
+<a onclick="showPage('maintenance')">Maintenance</a>
+</div>
+
+<div id="menuAdmin" class="hidden">
+<a onclick="showPage('adminDashboard')">Dashboard Admin</a>
+<a onclick="showPage('adminMuat')">Data Muat</a>
+<a onclick="showPage('adminBongkar')">Data Bongkar</a>
+<a onclick="showPage('adminMaintenance')">Data Maintenance</a>
+</div>
+
+<a onclick="logout()">Logout</a>
+</div>
+
+<div class="content">
+
+<div id="dashboard" class="card">
+
+<div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEisyaJDkkmnBrh0ELgT9cc3cQw70PEiMWusc086ztgoIVEdx-vvQU-WR8XWjAlEYX4YZB_6ArF7TVBjbNREumGxVZKXz5Tl_-Dzk4VJE_ocfgfwDgf6ChOtjNOC0UZzbMrsNHcWF6W50mHVXHAfAq2xPezGpDIvchFKMqTMdrMFLUON4vBb8inPSTvro3HG/s320/WhatsApp%20Image%202026-04-06%20at%2012.07.51%20(1).png" style="height:60px;">
+    <div>
+        <h2 style="margin-bottom:5px;">AGWI Trans Sejahtera</h2>
+        <p style="color:var(--muted);">Tracking Services Dashboard</p>
+    </div>
+</div>
+
+<hr style="margin:20px 0;border:1px solid var(--border);">
+
+<!-- STAT CARD -->
+<div class="stat-grid">
+
+    <div class="stat-card">
+        <h3 id="totalMuat">0</h3>
+        <p>Total Muat</p>
+    </div>
+
+    <div class="stat-card">
+        <h3 id="totalBongkar">0</h3>
+        <p>Total Bongkar</p>
+    </div>
+
+    <div class="stat-card">
+        <h3 id="totalMaintenance">0</h3>
+        <p>Maintenance</p>
+    </div>
+
+</div>
+
+<hr style="margin:20px 0;border:1px solid var(--border);">
+
+<!-- WELCOME -->
+<div class="card" style="background:linear-gradient(135deg,#4f8cff,#6aa6ff);color:white;">
+    <h3>Selamat Datang 👋</h3>
+    <p>Kelola data muat, bongkar, dan maintenance dengan mudah & cepat.</p>
+</div>
+
+</div>
+
+<div id="adminDashboard" class="card hidden">
+<h2>Dashboard Admin</h2>
+<p>Monitoring semua data</p>
+</div>
+
+<!-- MUAT -->
+<div id="muat" class="card hidden">
+<h2>Muat Barang</h2>
+<div class="form-grid">
+<input id="platMuat" placeholder="Plat Nomor">
+<input id="supirMuat" placeholder="Nama Supir">
+<input id="typeUnitMuat" placeholder="Type Unit">
+<input id="lokasiMuat" placeholder="Lokasi">
+<input type="date" id="tanggalMuat">
+<input id="dpMuat" placeholder="DP">
+<input type="file" id="fileMuat" multiple>
+</div>
+<button id="btnMuat" onclick="tambahMuat()">Simpan</button>
+<table>
+<thead>
+<tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>Lokasi</th><th>Tanggal</th><th>DP</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="tableMuat"></tbody>
+</table>
+</div>
+
+<!-- BONGKAR -->
+<div id="bongkar" class="card hidden">
+<h2>Bongkar Barang</h2>
+<div class="form-grid">
+<input id="platBongkar" placeholder="Plat Nomor">
+<input id="supirBongkar" placeholder="Nama Supir">
+<input id="typeUnitBongkar" placeholder="Type Unit">
+<input id="lokasiBongkar" placeholder="Lokasi">
+<input type="date" id="tanggalBongkar">
+<input id="dpBongkar" placeholder="Total Harga">
+<input type="file" id="fileBongkar" multiple>
+</div>
+<button id="btnBongkar" onclick="tambahBongkar()">Simpan</button>
+<table>
+<thead>
+<tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>Lokasi</th><th>Tanggal</th><th>Total</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="tableBongkar"></tbody>
+</table>
+</div>
+
+<!-- MAINTENANCE -->
+<div id="maintenance" class="card hidden">
+<h2>Maintenance</h2>
+
+<div class="form-grid">
+<input id="supirMaintenance" placeholder="Nama Supir">
+<input id="platMaintenance" placeholder="Plat Nomor">
+<input id="kendaraan" placeholder="Kendaraan">
+<input type="date" id="tanggalService">
+<input id="keterangan" placeholder="Keterangan">
+</div>
+
+<h3>Cek Kondisi</h3>
+<div class="checkbox-grid">
+
+<label><input type="checkbox" value="Oli Mesin" onchange="toggleItem(this)"> Oli Mesin <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Oli Hidrolik Wingbox & Kabin" onchange="toggleItem(this)"> Oli Hidrolik Wingbox & Kabin <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Setir" onchange="toggleItem(this)"> Setir <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Sabuk Pengaman" onchange="toggleItem(this)"> Sabuk Pengaman <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Temperatur" onchange="toggleItem(this)"> Temperatur <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Air Radiator" onchange="toggleItem(this)"> Air Radiator <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Rem" onchange="toggleItem(this)"> Rem <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Bahan Bakar" onchange="toggleItem(this)"> Bahan Bakar <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Fisik Ban" onchange="toggleItem(this)"> Fisik Ban <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Tekanan Ban" onchange="toggleItem(this)"> Tekanan Ban <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Lampu" onchange="toggleItem(this)"> Lampu <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Accu" onchange="toggleItem(this)"> Accu <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Kebersihan" onchange="toggleItem(this)"> Kebersihan <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Track-Belt" onchange="toggleItem(this)"> Track-Belt <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Terpal" onchange="toggleItem(this)"> Terpal <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Gembok" onchange="toggleItem(this)"> Gembok <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+</div>
+
+<h3>Kunci Ring Pas</h3>
+<div class="checkbox-grid">
+
+<label><input type="checkbox" value="Ring 8" onchange="toggleItem(this)"> Ring 8 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 10" onchange="toggleItem(this)"> Ring 10 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 12" onchange="toggleItem(this)"> Ring 12 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 14" onchange="toggleItem(this)"> Ring 14 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 16" onchange="toggleItem(this)"> Ring 16 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 17" onchange="toggleItem(this)"> Ring 17 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 18" onchange="toggleItem(this)"> Ring 18 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 19" onchange="toggleItem(this)"> Ring 19 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 20" onchange="toggleItem(this)"> Ring 20 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 21" onchange="toggleItem(this)"> Ring 21 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 22" onchange="toggleItem(this)"> Ring 22 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 24" onchange="toggleItem(this)"> Ring 24 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 27" onchange="toggleItem(this)"> Ring 27 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 30" onchange="toggleItem(this)"> Ring 30 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+<label><input type="checkbox" value="Ring 32" onchange="toggleItem(this)"> Ring 32 <select class="kondisi" disabled><option value="">Pilih</option><option>Baik</option><option>Buruk</option></select><input type="file" class="file-item hidden"></label>
+
+
+
+</div>
+
+<button id="btnMaintenance" onclick="tambahMaintenance()">Simpan</button>
+
+<table>
+<thead>
+<tr><th>Supir</th><th>Plat</th><th>Kendaraan</th><th>Tanggal</th><th>Checklist</th><th>Keterangan</th><th>File</th><th>Aksi</th></tr>
+</thead>
+<tbody id="tableMaintenance"></tbody>
+</table>
+</div>
+
+<!-- ADMIN -->
+<div id="adminMuat" class="card hidden">
+<h2>Data Muat</h2>
+<button onclick="exportExcel('muat')">Export Excel</button>
+<table><thead><tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>Lokasi</th><th>Tanggal</th><th>DP</th><th>File</th><th>Aksi</th></tr></thead><tbody id="viewMuat"></tbody></table>
+</div>
+
+<div id="adminBongkar" class="card hidden">
+<h2>Data Bongkar</h2>
+<button onclick="exportExcel('bongkar')">Export Excel</button>
+<table><thead><tr><th>Plat</th><th>Supir</th><th>Type Unit</th><th>Lokasi</th><th>Tanggal</th><th>Total</th><th>File</th><th>Aksi</th></tr></thead><tbody id="viewBongkar"></tbody></table>
+</div>
+
+<div id="adminMaintenance" class="card hidden">
+<h2>Data Maintenance</h2>
+<button onclick="exportExcel('maintenance')">Export Excel</button>
+<table><thead><tr><th>Supir</th><th>Plat</th><th>Kendaraan</th><th>Tanggal</th><th>Checklist</th><th>Keterangan</th><th>File</th><th>Aksi</th></tr></thead><tbody id="viewMaintenance"></tbody></table>
+</div>
+
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
